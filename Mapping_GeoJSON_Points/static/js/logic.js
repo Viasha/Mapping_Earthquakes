@@ -1,8 +1,5 @@
-// Add console.log to check to see if our code is working.
-console.log("working");
-
 // Create the map object with a center and zoom level.
-let map = L.map('mapid').setView([37.5, -122.5], 10);
+let map = L.map('mapid').setView([30, 30], 2);
 
 // Add GeoJSON data.
 let sanFranAirport =
@@ -33,13 +30,7 @@ L.geoJSON(sanFranAirport, {
       }
 }).addTo(map);
 
-// Grabbing out GeoJSON data
-L.geoJSON(sanFranAirport, {
-    onEachFeature: function(feature, layer) {
-        console.log(layer);
-      layer.bindPopup("<h2>" + "Airport code:" + feature.properties.faa + "</h2>" + "<h3>" + "Airport name:" + feature.properties.name + "</h3>");
-     }
-}).addTo(map);
+
 
 // We create the tile layer that will be the background of our map.
 let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -47,8 +38,38 @@ let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-str
     maxZoom: 18,
     accessToken: API_KEY
 });
+// Accessing the airprt GeoJSON URL
+
+let airportData= "https://raw.githubusercontent.com/Viasha/Mapping_Earthquakes/main/majorAirports.json";
 
 
 
 // Then we add our 'graymap' tile layer to the map.
 streets.addTo(map);
+
+
+// Grabbing our GeoJSON data.
+L.geoJSON(sanFranAirport, {
+      onEachFeature: function(feature, layer) {
+         layer.bindPopup("<h2>" + "Airport code:" +  feature.properties.faa + "</h2>" + "<h3>" + "Airport name:" + feature.properties.name + "</h3>");
+    }
+
+  }).addTo(map);
+
+  L.geoJSON(airportData, {
+    // We turn each feature into a marker on the map.
+    pointToLayer: function(feature, ) {
+        console.log(feature);
+        return L.marker(latlng)
+        .bindPopup("<h2>" + "Airport code:" + feature.properties.faa + "</h2>"+ "<h3>" + "Airport name:" + feature.properties.name + "</h3>" );
+      }
+}).addTo(map);
+
+
+
+
+
+// // Grabbing our GeoJSON data.
+// d3.json(airportData).then(function(data) {
+//     console.log(data);
+// }}.addTo(map);

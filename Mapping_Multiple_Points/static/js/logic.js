@@ -29,9 +29,5 @@ cityData.forEach(function(city) {
   .addTo(map);
 });
 
-
-
-
-
 // Then we add our 'graymap' tile layer to the map.
 streets.addTo(map);
